@@ -1,0 +1,12 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+myenv/
+passphrase.txt
+logs/
+*.md
+.cache
+.git
+.gitignore
+flagged/
