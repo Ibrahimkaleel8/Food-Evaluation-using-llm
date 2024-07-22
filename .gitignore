@@ -1,5 +1,6 @@
-myenv
+venv
 flagged
 .DS_Store
-app/__pycache__/main.cpython-39.pyc
-app/__pycache__/model.cpython-39.pyc
+.env
+__pycache__
+.ruff_cache
