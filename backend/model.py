@@ -5,7 +5,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.output_parsers import ResponseSchema
 from langchain.output_parsers import StructuredOutputParser
 from dotenv import load_dotenv
-from datatypes import TextIn, Nutrients
+from datatypes import TextIn, Nutrients, Sentence, FinalResponse
 import os
 
 load_dotenv()
@@ -35,13 +35,21 @@ output_parser = StructuredOutputParser.from_response_schemas(response_schema)
 
 format_instructions = output_parser.get_format_instructions()
 
+final_schema = ResponseSchema(
+    name="final_output", description="Final output of the model"
+)
+
+output_parser2 = StructuredOutputParser.from_response_schemas([final_schema])
+
+format_instructions2 = output_parser2.get_format_instructions()
+
+llm = ChatGoogleGenerativeAI(
+    google_api_key=os.getenv("GOOGLE_API_KEY"), model="gemini-pro"
+)
+
 
 def get_response(food_name: TextIn):
-    llm = ChatGoogleGenerativeAI(
-        google_api_key=os.getenv("GOOGLE_API_KEY"), model="gemini-pro"
-    )
-
-    prompt_template = """
+    prompt_nutrients = """
     You are an expert Nutritionists, i will provide you with food_name, Please provide information \
     on the total following nutrients found in food_name.
 
@@ -58,7 +66,7 @@ def get_response(food_name: TextIn):
 
     try:
         prompt = PromptTemplate(
-            template=prompt_template,
+            template=prompt_nutrients,
             input_variables=["food_name"],
             partial_variables={"format_instructions": format_instructions},
         )
@@ -78,3 +86,42 @@ def get_response(food_name: TextIn):
         return response
     except Exception as e:
         print(f"An error occurred: {e}")
+
+
+def get_final_response(nutrients: Nutrients):
+    prompt_final = """
+    For the given nutrients of the specific food tell me how good is this for health \
+    how frequently it can be consumed,and is there any bad impact on our health \
+    the answer should not be more than 2 sentence, try to give answer in a creative sentence\
+    ```{nutrients}```
+
+    ```{format_instructions2}``   
+    """
+    try:
+        prompt = PromptTemplate(
+            template=prompt_final,
+            input_variables=["nutrients"],
+            partial_variables={"format_instructions2": format_instructions2},
+        )
+
+        chain = prompt | llm
+        output = chain.invoke({"nutrients": nutrients})
+        result = output_parser2.parse(output.content)
+        response = Sentence(response=result["final_output"])
+        return response
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+
+def get_extracted_details(food_name: TextIn) -> FinalResponse:
+    nutrients = get_response(food_name)
+    body = Nutrients(
+        name=nutrients.name,
+        proteins=nutrients.proteins,
+        fats=nutrients.fats,
+        carbohydrates=nutrients.carbohydrates,
+        vitamins=nutrients.vitamins,
+        minerals=nutrients.minerals,
+    )
+    sentence = get_final_response(body)
+    return body, sentence

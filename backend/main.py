@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from model import get_response
+from model import get_extracted_details
 
 from datatypes import TextIn
 
@@ -14,6 +14,5 @@ async def home():
 
 @app.post("/response")
 async def response(request: TextIn):
-    result = get_response(request.food_name)
-    # response = json.loads(result)
+    result = get_extracted_details(request.food_name)
     return result

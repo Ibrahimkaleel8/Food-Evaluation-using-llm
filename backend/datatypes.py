@@ -33,3 +33,12 @@ class Nutrients(BaseModel):
     carbohydrates: str
     vitamins: Union[Vitamins, str]
     minerals: Union[Minerals, str]
+
+
+class Sentence(BaseModel):
+    response: str
+
+
+class FinalResponse(BaseModel):
+    body: Nutrients
+    sentence: Sentence
