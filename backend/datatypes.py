@@ -1,9 +1,15 @@
 from pydantic import BaseModel, field_validator
-from typing import List, Union
+from typing import List, Union, Optional
 
 
 class TextIn(BaseModel):
     food_name: str
+
+
+class NameResponse(BaseModel):
+    name: str
+    type: Optional[str] = None
+    ingredients: Optional[str] = None
 
 
 class Vitamins(BaseModel):
