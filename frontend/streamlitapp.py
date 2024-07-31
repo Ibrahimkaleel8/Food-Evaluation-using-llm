@@ -24,10 +24,13 @@ with st.form("my_form"):
         res = process(text_input, api)
 
         if isinstance(res, list) and len(res) > 0:
-            food_info = res[0]
+            food_ingredients = res[0]
+            food_info = res[1]
             response_text = ""
-            if len(res) > 1 and isinstance(res[1], dict):
+            if len(res) > 1 and isinstance(res[2], dict):
                 response_text = res[1].get("response", "No response text available")
+            st.subheader("Ingredients present in the food")
+            st.write(f"{food_ingredients.get('ingredients','N/A')}")
             st.subheader("Nutrients presents")
             st.write(f"Name: {food_info.get('name', 'N/A')}")
             st.write(f"Proteins: {food_info.get('proteins', 'N/A')}")
@@ -38,4 +41,4 @@ with st.form("my_form"):
             st.subheader("Summary")
             st.write(response_text)
         else:
-            st.write("Unexpected response format")
+            st.write("Given input is not a food")
