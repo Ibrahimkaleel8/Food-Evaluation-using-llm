@@ -8,8 +8,12 @@ from prompt import PROMPT_NAME, PROMPT_NUTRIENTS, PROMPT_SUMMARY
 from config import *
 import os
 import json
+import logging
 
 load_dotenv()
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 name_schema = ResponseSchema(name=NAME, description="name of the food")
 protein_schema = ResponseSchema(name=PROTEIN, description="protein of the food item")
@@ -57,7 +61,7 @@ llm = ChatGoogleGenerativeAI(
 )
 
 
-def get_name_info(food_name: TextIn):
+def get_name_info(food_name: TextIn) -> NameResponse:
     try:
         prompt = PromptTemplate(
             template=PROMPT_NAME,
@@ -74,12 +78,13 @@ def get_name_info(food_name: TextIn):
             type=result_dict[FOOD_TYPE],
             ingredients=result_dict[INGREDIENTS],
         )
+        logging.info(f"get_name_info result: {response}")
         return response
     except Exception as e:
-        print(f"An error occurred: {e}")
+        logging.error(f"An error occurred in get_name_info: {e}")
 
 
-def get_nutrients(food_data: NameResponse):
+def get_nutrients(food_data: NameResponse) -> Nutrients:
     food_name = food_data.name
     ingredients = food_data.ingredients if food_data.ingredients else ""
 
@@ -101,12 +106,13 @@ def get_nutrients(food_data: NameResponse):
             vitamins=result[VITAMINS],
             minerals=result[MINERALS],
         )
+        logging.info(f"get_nutrients result: {response}")
         return response
     except Exception as e:
-        print(f"An error occurred: {e}")
+        logging.error(f"An error occurred in get_nutrients: {e}")
 
 
-def get_summary(nutrients: Nutrients):
+def get_summary(nutrients: Nutrients) -> Sentence:
     try:
         prompt = PromptTemplate(
             template=PROMPT_SUMMARY,
@@ -118,9 +124,10 @@ def get_summary(nutrients: Nutrients):
         output = chain.invoke({NUTRIENTS: nutrients})
         result = output_parser2.parse(output.content)
         response = Sentence(response=result[SUMMARY])
+        logging.info(f"get_summary result: {response}")
         return response
     except Exception as e:
-        print(f"An error occurred: {e}")
+        logging.error(f"An error occurred in get_summary: {e}")
 
 
 def get_extracted_details(food_name: TextIn) -> FinalResponse:
@@ -144,6 +151,8 @@ def get_extracted_details(food_name: TextIn) -> FinalResponse:
             minerals=nutrients.minerals,
         )
         sentence = get_summary(body)
+        logging.info(f"get_extracted_details result: {food_data}, {body}, {sentence}")
         return food_data, body, sentence
     else:
+        logging.info(f"{food_name} is not a food")
         return None

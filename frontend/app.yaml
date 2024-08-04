@@ -1,0 +1,10 @@
+service: frontend
+
+runtime: python39
+
+env_variables:
+  PORT: 8501
+
+handlers:
+  - url: /.*
+    script: auto
