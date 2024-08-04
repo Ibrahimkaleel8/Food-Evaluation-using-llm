@@ -1,0 +1,11 @@
+service: backend
+
+runtime: python39
+
+env_variables:
+  PORT: 3000
+
+handlers:
+  - url: /.*
+    script: auto
+
