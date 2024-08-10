@@ -1,10 +1,9 @@
-service: frontend
+runtime: custom
+env: flex
 
-runtime: python39
+service: frontend-service
+
+instance_class: F2
 
 env_variables:
-  PORT: 8501
-
-handlers:
-  - url: /.*
-    script: auto
+  BACKEND_URL: 0.0.0.0.3000
