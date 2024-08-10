@@ -19,8 +19,8 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
         
-      #Task for setting up Python 3.9 using actions/setup-python@v2 Github action
-      - name: Set up Python 3.9
+      #Task for setting up Python 3.11 using actions/setup-python@v2 Github action
+      - name: Set up Python 3.11
         uses: actions/setup-python@v2
         with:
           python-version: 3.9 # Modify python version HERE

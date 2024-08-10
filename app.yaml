@@ -1,9 +1,0 @@
-dispatch:
-  - url: "*/backend/*"
-    service: backend
-
-  - url: "*/frontend/*"
-    service: frontend
-
-  - url: "/*"
-    service: frontend

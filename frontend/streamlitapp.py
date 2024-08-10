@@ -29,7 +29,7 @@ with st.form("my_form"):
             response_text = ""
             if len(res) > 1 and isinstance(res[2], dict):
                 response_text = res[1].get("response", "No response text available")
-            st.subheader("Essential ingredients present in the food")
+            st.subheader("Ingredients present in the food")
             st.write(f"{food_ingredients.get('ingredients','N/A')}")
             st.subheader("Nutrients presents")
             st.write(f"Name: {food_info.get('name', 'N/A')}")
