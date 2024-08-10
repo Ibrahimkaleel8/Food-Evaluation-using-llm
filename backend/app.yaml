@@ -1,6 +1,9 @@
-service: backend
+runtime: custom
+env: flex
 
-runtime: python39
+service: backend-service
+
+instance_class: F2
 
 env_variables:
   PORT: 3000
@@ -8,4 +11,3 @@ env_variables:
 handlers:
   - url: /.*
     script: auto
-
