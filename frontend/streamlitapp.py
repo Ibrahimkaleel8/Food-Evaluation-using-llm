@@ -6,7 +6,7 @@ st.title("Food Evaluation using Gemini 🍲")
 st.subheader("")
 st.subheader("Predicting the nutrients and details of food by providing its name")
 
-api = "http://backend:3000/response"
+api = "http://localhost:3000/response"
 
 
 def process(foodname: str, endpoint: str):
