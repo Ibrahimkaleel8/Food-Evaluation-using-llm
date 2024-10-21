@@ -6,9 +6,9 @@ services:
     buildFilter:
     paths:
       - backend/**  
-    envVars:
-      - key: GEMINI_API_KEY
-      generateValue: true   
+    # envVars:
+    #   - key: GEMINI_API_KEY
+    #   generateValue: true   
   
   - type: web
     runtime: docker
