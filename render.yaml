@@ -7,10 +7,10 @@ services:
     paths:
       - backend/**  
     envVars:
-    - key: GEMINI_API_KEY
+      - key: GEMINI_API_KEY
       generateValue: true   
   
-  -type: web
+  - type: web
     runtime: docker
     name: prod-frontend1
     repo: https://github.com/Ibrahimkaleel8/Food-Evaluation-using-llm.git
