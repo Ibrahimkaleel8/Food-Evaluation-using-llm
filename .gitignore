@@ -4,3 +4,4 @@ flagged
 .env
 __pycache__
 .ruff_cache
+.devcontainer
