@@ -1,0 +1,162 @@
+[
+  {
+    "food_name": "banana",
+    "calories": 89,
+    "protein_g": 1.09,
+    "carbs_g": 22.84,
+    "fat_g": 0.33,
+    "fiber_g": 2.6
+  },
+  {
+    "food_name": "apple, raw, with skin",
+    "calories": 52,
+    "protein_g": 0.26,
+    "carbs_g": 13.81,
+    "fat_g": 0.17,
+    "fiber_g": 2.4
+  },
+  {
+    "food_name": "chicken breast, raw",
+    "calories": 120,
+    "protein_g": 22.5,
+    "carbs_g": 0.0,
+    "fat_g": 2.62,
+    "fiber_g": 0.0
+  },
+  {
+    "food_name": "broccoli, raw",
+    "calories": 34,
+    "protein_g": 2.82,
+    "carbs_g": 6.64,
+    "fat_g": 0.37,
+    "fiber_g": 2.6
+  },
+  {
+    "food_name": "salmon, raw",
+    "calories": 208,
+    "protein_g": 20.4,
+    "carbs_g": 0.0,
+    "fat_g": 13.4,
+    "fiber_g": 0.0
+  },
+  {
+    "food_name": "egg, whole, raw",
+    "calories": 143,
+    "protein_g": 12.6,
+    "carbs_g": 0.72,
+    "fat_g": 9.51,
+    "fiber_g": 0.0
+  },
+  {
+    "food_name": "brown rice, cooked",
+    "calories": 112,
+    "protein_g": 2.32,
+    "carbs_g": 23.5,
+    "fat_g": 0.83,
+    "fiber_g": 1.8
+  },
+  {
+    "food_name": "almonds",
+    "calories": 579,
+    "protein_g": 21.2,
+    "carbs_g": 21.6,
+    "fat_g": 49.9,
+    "fiber_g": 12.5
+  },
+  {
+    "food_name": "spinach, raw",
+    "calories": 23,
+    "protein_g": 2.86,
+    "carbs_g": 3.63,
+    "fat_g": 0.39,
+    "fiber_g": 2.2
+  },
+  {
+    "food_name": "avocado, raw",
+    "calories": 160,
+    "protein_g": 2.0,
+    "carbs_g": 8.53,
+    "fat_g": 14.7,
+    "fiber_g": 6.7
+  },
+  {
+    "food_name": "lentils, cooked",
+    "calories": 116,
+    "protein_g": 9.02,
+    "carbs_g": 20.1,
+    "fat_g": 0.38,
+    "fiber_g": 7.9
+  },
+  {
+    "food_name": "whole milk",
+    "calories": 61,
+    "protein_g": 3.15,
+    "carbs_g": 4.8,
+    "fat_g": 3.25,
+    "fiber_g": 0.0
+  },
+  {
+    "food_name": "sweet potato, raw",
+    "calories": 86,
+    "protein_g": 1.57,
+    "carbs_g": 20.1,
+    "fat_g": 0.05,
+    "fiber_g": 3.0
+  },
+  {
+    "food_name": "oats, raw",
+    "calories": 389,
+    "protein_g": 16.9,
+    "carbs_g": 66.3,
+    "fat_g": 6.9,
+    "fiber_g": 10.6
+  },
+  {
+    "food_name": "beef ground, raw",
+    "calories": 250,
+    "protein_g": 17.3,
+    "carbs_g": 0.0,
+    "fat_g": 19.5,
+    "fiber_g": 0.0
+  },
+  {
+    "food_name": "yogurt, plain, whole milk",
+    "calories": 61,
+    "protein_g": 3.47,
+    "carbs_g": 4.66,
+    "fat_g": 3.25,
+    "fiber_g": 0.0
+  },
+  {
+    "food_name": "carrot, raw",
+    "calories": 41,
+    "protein_g": 0.93,
+    "carbs_g": 9.58,
+    "fat_g": 0.24,
+    "fiber_g": 2.8
+  },
+  {
+    "food_name": "blueberries, raw",
+    "calories": 57,
+    "protein_g": 0.74,
+    "carbs_g": 14.5,
+    "fat_g": 0.33,
+    "fiber_g": 2.4
+  },
+  {
+    "food_name": "peanut butter, smooth",
+    "calories": 588,
+    "protein_g": 25.1,
+    "carbs_g": 20.0,
+    "fat_g": 50.4,
+    "fiber_g": 6.0
+  },
+  {
+    "food_name": "tomato, raw",
+    "calories": 18,
+    "protein_g": 0.88,
+    "carbs_g": 3.89,
+    "fat_g": 0.2,
+    "fiber_g": 1.2
+  }
+]

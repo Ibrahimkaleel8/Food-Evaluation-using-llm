@@ -1,7 +1,12 @@
-venv
+myenv
 flagged
 .DS_Store
 .env
 __pycache__
 .ruff_cache
 .devcontainer
+chroma_data
+chroma_db/
+backend/data/*.json
+backend/eval/results/
+*.db

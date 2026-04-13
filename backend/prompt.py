@@ -39,3 +39,29 @@ PROMPT_SUMMARY = """
 
     ```{format_instructions2}```
 """
+
+RAG_NUTRITION_PROMPT = """
+You are an expert nutritionist system. Analyze the provided food item using ONLY the following USDA context.
+If no USDA context is provided or if it says "No USDA results found", fallback to your internal knowledge, but you MUST set the "retrieval_source" field to "LLM fallback".
+Otherwise, set the "retrieval_source" field to "USDA RAG".
+
+You must output valid JSON ONLY matching exactly this Pydantic schema structure. No markdown formatting blocks, no explanations, just raw JSON:
+{{
+  "food_name": "string",
+  "calories": "float (kcal)",
+  "protein_g": "float",
+  "carbs_g": "float",
+  "fat_g": "float",
+  "fiber_g": "float",
+  "key_vitamins": ["list of strings"],
+  "health_score": "float (0-100)",
+  "recommendation": "string (short health recommendation)",
+  "confidence": "float (0.0 to 1.0)",
+  "retrieval_source": "string"
+}}
+
+Food Name: {food_name}
+
+USDA Context:
+{usda_context}
+"""

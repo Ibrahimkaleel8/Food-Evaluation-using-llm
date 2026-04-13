@@ -3,13 +3,16 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.output_parsers import ResponseSchema
 from langchain.output_parsers import StructuredOutputParser
 from dotenv import load_dotenv
-from datatypes import TextIn, Nutrients, Sentence, FinalResponse, NameResponse
-from prompt import PROMPT_NAME, PROMPT_NUTRIENTS, PROMPT_SUMMARY
-from config import *
+from .datatypes import TextIn, Nutrients, Sentence, FinalResponse, NameResponse, NutritionResponse
+from .prompt import PROMPT_NAME, PROMPT_NUTRIENTS, PROMPT_SUMMARY, RAG_NUTRITION_PROMPT
+from .config import *
+from .chromadb_client import retrieve_food_context
 import os
 import json
+from pydantic import ValidationError
 
-load_dotenv()
+env_path = os.path.join(os.path.dirname(__file__), ".env")
+load_dotenv(dotenv_path=env_path)
 
 name_schema = ResponseSchema(name=NAME, description="name of the food")
 protein_schema = ResponseSchema(name=PROTEIN, description="protein of the food item")
@@ -124,6 +127,14 @@ def get_summary(nutrients: Nutrients):
 
 
 def get_extracted_details(food_name: TextIn) -> FinalResponse:
+    cached = get_cached_result(food_name)
+    if cached:
+        return (
+            NameResponse(**cached["food_data"]),
+            Nutrients(**cached["nutrients"]),
+            Sentence(response=cached["sentence"]),
+        )
+
     is_foodname = get_name_info(food_name)
 
     food_data = NameResponse(
@@ -144,6 +155,66 @@ def get_extracted_details(food_name: TextIn) -> FinalResponse:
             minerals=nutrients.minerals,
         )
         sentence = get_summary(body)
+
+        cache_result(
+            food_name,
+            {
+                "food_data": food_data.model_dump(),
+                "nutrients": body.model_dump(),
+                "sentence": sentence.response,
+            },
+        )
+
         return food_data, body, sentence
     else:
         return None
+
+
+def get_rag_nutrition(food_name: str) -> NutritionResponse:
+    # 1. Retrieve Context
+    usda_context = retrieve_food_context(food_name)
+    
+    # 2. Format Prompt
+    prompt = PromptTemplate(
+        template=RAG_NUTRITION_PROMPT,
+        input_variables=["food_name", "usda_context"]
+    )
+    
+    # 3. Create structured LLM chain
+    llm_structured = llm.with_structured_output(NutritionResponse, include_raw=False)
+    chain = prompt | llm_structured
+    
+    # 4. Invoke LLM and build response
+    try:
+        response = chain.invoke({"food_name": food_name, "usda_context": usda_context})
+        return response
+    except ValidationError:
+        # Fallback if Pydantic validation fails
+        return NutritionResponse(
+            food_name=food_name,
+            calories=0.0,
+            protein_g=0.0,
+            carbs_g=0.0,
+            fat_g=0.0,
+            fiber_g=0.0,
+            key_vitamins=[],
+            health_score=0.0,
+            recommendation="Data format error",
+            confidence=0.0,
+            retrieval_source="Error"
+        )
+    except Exception as e:
+        print(f"RAG Error: {e}")
+        return NutritionResponse(
+            food_name=food_name,
+            calories=0.0,
+            protein_g=0.0,
+            carbs_g=0.0,
+            fat_g=0.0,
+            fiber_g=0.0,
+            key_vitamins=[],
+            health_score=0.0,
+            recommendation="API error",
+            confidence=0.0,
+            retrieval_source="Error"
+        )
